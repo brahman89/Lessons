@@ -27,6 +27,17 @@ for i in L1:
 #print(VS)
 #print(range(len(VS)))
 
+m = 0
+while m < len(VS):
+    m += 1
+    l = 0
+    while VS[l] == VS[m - 1] or VS[l - 1] != VS[m - 1][::-1]:
+        l += 1
+        continue
+    else:
+        VS.pop(m - 1)
+        L2.pop(m - 1)
+
 from collections import defaultdict
 D = defaultdict(list)
 for k, v in zip(L2, VS):
