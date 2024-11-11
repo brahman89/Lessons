@@ -19,7 +19,8 @@ info = [
     'Text for tell.',
     'Используйте кодировку utf-8.',
     'Because there are 2 languages!',
-    'Спасибо!'
+    'Спасибо!',
+    'Пожалуйста!'
 ]
 
 result = custom_write('test.txt', info)
