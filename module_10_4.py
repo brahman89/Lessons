@@ -24,12 +24,6 @@ class Guest(threading.Thread):
         print(f"end {self.name}")
 
 
-
-
-
-
-
-
 class Cafe:
 
     def __init__(self, *tables):
@@ -58,14 +52,10 @@ class Cafe:
     # #обслужить гостей
     def discuss_guests(self):
 
-
         while True:
             for i in guests:
-                if i.is_alive()==True:
+                if i.is_alive() == True:
                     print(i.name)
-
-
-
 
 
 # Создание столов
