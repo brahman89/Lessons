@@ -15,13 +15,12 @@ class Guest(threading.Thread):
 
     def __init__(self, name):
         threading.Thread.__init__(self)
-        self.daemon = False
         self.name = name
 
     def run(self):
         delay_ = randint(3, 10)
         time.sleep(delay_)
-        print(f"end {self.name}")
+        # print(f"end {self.name}")
 
 
 class Cafe:
@@ -31,33 +30,47 @@ class Cafe:
 
     # прибытие гостей
     def guest_arrival(self, *guests):
-        queue = Queue()
         g = -len(guests)
         t = -len(tables)
-        # print(guests[g].name)
-        # print(tables[t].guest)
         while g != 0:
-            if tables[t].guest == None:
-                tables[t].guest = guests[g].name
-                (Guest(guests[g].name)).start()
-                print(f"{tables[t].guest} сел(-а) за стол номер {tables[t].number}")
+            if tables[t].guest is None:
+                tables[t].guest = guests[g]
+                guests[g].start()
+                print(f"{guests[g].name} сел(-а) за стол номер {tables[t].number}")
 
                 g += 1
                 t += 1
             else:
                 print(f"{guests[g].name} в очереди")
-                queue.put(guests[g].name)
+                queue.put(guests[g])
+                deq.append(1)
                 g += 1
 
     # #обслужить гостей
     def discuss_guests(self):
+        k = 0
+        # print(len(guests))
+        while k <= len(guests):
+            for table in tables:
+                if table.guest != None:
+                    if table.guest.is_alive() == False:
+                        print(f"{table.guest.name} покушал(-а) и ушёл(ушла)")
+                        table.guest = None
+                        k += 1
+                        # print(k)
+                        print(f"Стол номер {table.number} свободен")
 
-        while True:
-            for i in guests:
-                if i.is_alive() == True:
-                    print(i.name)
+                        if queue.empty() == False:
+                            table.guest = queue.get()
+                            table.guest.start()
+                            print(f'{table.guest.name} вышел(-ла) из очереди и сел(-а) за стол номер {table.number}')
+                        else:
+                            k += 1
+                            # print(k)
 
 
+queue = Queue()
+deq = []
 # Создание столов
 tables = [Table(number) for number in range(1, 6)]
 # Имена гостей
