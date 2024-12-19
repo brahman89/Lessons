@@ -115,20 +115,20 @@ class Tournament:
         finishers = {}
         place = 1
         while self.participants:
-            l=[participant for participant in self.participants]
-            for i in l:
-                i.run()
-                if i.distance > self.full_distance:
-                    finishers[place] = i.name
-                    place += 1
-                    self.participants.remove(i)
+            # l=[participant for participant in self.participants]
+            # for i in l:
+            #     i.run()
+            #     if i.distance > self.full_distance:
+            #         finishers[place] = i.name
+            #         place += 1
+            #         self.participants.remove(i)
 
-            # for participant in self.participants:
-            #     participant.run()
-                # if participant.distance > self.full_distance:
-                #     finishers[place] = participant
-                #     place += 1
-                #     self.participants.remove(participant)
+            for participant in self.participants[:]:
+                participant.run()
+                if participant.distance > self.full_distance:
+                    finishers[place] = participant.name
+                    place += 1
+                    self.participants.remove(participant)
 
 
 
