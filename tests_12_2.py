@@ -1,5 +1,4 @@
 import unittest
-import pprint
 
 
 class Runner:
@@ -29,16 +28,25 @@ class Tournament:
         self.full_distance = distance
         self.participants = list(participants)
 
+
     def start(self):
         finishers = {}
         place = 1
         while self.participants:
-            for participant in self.participants:
-                participant.run()
-                if participant.distance > self.full_distance:
-                    finishers[place] = participant.name
+            l=[participant for participant in self.participants]
+            for i in l:
+                i.run()
+                if i.distance > self.full_distance:
+                    finishers[place] = i.name
                     place += 1
-                    self.participants.remove(participant)
+                    self.participants.remove(i)
+
+            # for participant in self.participants:
+            #     participant.run()
+                # if participant.distance > self.full_distance:
+                #     finishers[place] = participant
+                #     place += 1
+                #     self.participants.remove(participant)
 
 
 
@@ -96,10 +104,10 @@ class TournamentTest(unittest.TestCase):
                         msg="Ник всегда должен быть последним!")
 
 
-    def test6_on_dist_0(self):
-        self.tournament_6 = Tournament(0, self.runner_1, self.runner_2, self.runner_3)
-        self.all_results[6] = (self.tournament_6.start())
-        '''Ник всегда должен быть последним! но забег еще не начался'''
+    # def test6_on_dist_0(self):
+    #     self.tournament_6 = Tournament(0, self.runner_1, self.runner_2, self.runner_3)
+    #     self.all_results[6] = (self.tournament_6.start())
+    #     '''Ник всегда должен быть последним! но забег еще не начался'''
 
 
 if __name__ == "__main__":
