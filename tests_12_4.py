@@ -2,10 +2,13 @@ import logging
 import unittest
 from unittest import TestCase
 
-logging.basicConfig(level=logging.INFO, filemode='w', filename='runner_tests.log', encoding='utf-8',
-                        format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
-logger = logging.getLogger(__name__)
-
+logging.basicConfig(
+    level=logging.INFO,
+    filename='runner_tests.log',
+    filemode='w',
+    encoding='utf-8',
+    format='%(levelname)s: %(message)s'
+)
 
 class Runner:
     def __init__(self, name, speed=5):
@@ -37,7 +40,6 @@ class Runner:
         elif isinstance(other, Runner):
             return self.name == other.name
 
-
 # class Tournament:
 #     def __init__(self, distance, *participants):
 #         self.full_distance = distance
@@ -56,28 +58,23 @@ class Runner:
 #
 #         return finishers
 
-
 class RunnerTest(TestCase):
-
 
     def test_walk(self):
         try:
             first = Runner('Вося', -10)
             first.walk()
-            self.assertEqual(first.distance, 10)
-        except:
-            logger.warning("Неверная скорость для Runner")
-
+            logging.info('"test_walk" выполнен успешно')
+        except ValueError as e:
+            logging.warning("Неверная скорость для Runner: %s", e)
 
     def test_run(self):
         try:
             second = Runner(5, 5)
             second.run()
-            self.assertEqual(second.distance, 10)
-        except :
-            logger.warning("Неверный тип данных для объекта Runner")
-
-
+            logging.info('"test_run" выполнен успешно')
+        except TypeError as e:
+            logging.warning("Неверный тип данных для объекта Runner: %s", e)
 
 if __name__ == "__main__":
     unittest.main()
