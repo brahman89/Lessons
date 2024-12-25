@@ -95,23 +95,25 @@ kb_activity = InlineKeyboardMarkup(resize_keyboard=True).row(button_5, button_6,
                                                              button_8, button_9)
 
 
+
 @dp.callback_query_handler(state=UserState.sex)
-async def set_activity(call, state):
-    await state.update_data(sex=call.message.text)
-    await call.message.answer(
+async def set_activity(message, state):
+    # await call.answer()
+    await state.update_data(sex=message.data)
+    await message.message.answer(
         "Ваша повседневная физическая активности от 1 до 5\n, где \n1 - минимальная активность\n2 - слабая активность\n3 - средняя активность\n4 - высокая активность\n5 - экстра-активност",
         reply_markup=kb_activity)
-    await call.answer()
+    await message.answer()
     await UserState.activity.set()
 
 
 
 @dp.callback_query_handler(state=UserState.activity)
-async def send_calories(call, state):
-    await state.update_data(activity=call.message.text)
+async def send_calories(message, state):
+    await state.update_data(activity=message.data)
     data = await state.get_data()
-    await call.message.answer(
-        f"{data['activity'], data['sex']}")
+    # await message.answer(
+    #     f"{data['activity']} | {data['sex']}")
     A = [1.2, 1.375, 1.55, 1.725, 1.9]
     if data['sex'] == 'm':
         Cals = ((10.0 * float(data['weight'])) + (6.25 * float(data['growth'])) - (5.0 * float(data['age'])) + 5.0) * (
@@ -119,9 +121,9 @@ async def send_calories(call, state):
     else:
         Cals = ((10.0 * float(data['weight'])) + (6.25 * float(data['growth'])) - (
                 5.0 * float(data['age'])) - 161.0) * (A[int(data['activity']) - 1])
-    await call.answer(
+    await message.message.answer(
         f'Ваша норма килокалорий в сутки: {round(Cals, 2)} ккал')
-
+    await message.answer()
     await state.finish()
 
 
